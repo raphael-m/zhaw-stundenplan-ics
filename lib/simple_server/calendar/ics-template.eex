@@ -1,0 +1,16 @@
+<%
+  use Timex
+%>BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+PRODID:-//ZHAW Stundenplan ICS//http://stundenplan.zhaw.ch//DE
+<%= for item <- events do %>BEGIN:VEVENT
+DTSTAMP:<%= Timex.format!(Timex.now, "{ISO:Basic:Z}") %>
+DTSTART:<%= Timex.format!(Timex.parse!(item["startTime"], "{ISO:Extended}"), "{ISO:Basic:Z}") %>
+DTEND:<%= Timex.format!(Timex.parse!(item["endTime"], "{ISO:Extended}"), "{ISO:Basic:Z}") %>
+SUMMARY:<%= item["name"] %>
+DESCRIPTION:<%= item["description"] %>\n<%= for lecturer <- List.first(item["eventRealizations"])["lecturers"] do %>\n<%= lecturer["firstName"] %> <%= lecturer["lastName"] %> (<%= lecturer["shortName"] %>)<% end %>
+LOCATION:<%= List.first(item["eventRealizations"])["room"]["name"] %>
+END:VEVENT
+<% end %>END:VCALENDAR
