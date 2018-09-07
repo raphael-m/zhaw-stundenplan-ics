@@ -12,7 +12,8 @@ defmodule ZHAW.Calendar do
     firstDate = Timex.beginning_of_week now
 
     # Because the api currently only supports returning 7 days per request,
-    # take the following 24 weeks (could be ) and combine the results
+    # take the following 24 weeks and combine the results (in a future version,
+    # we'll take care of semesters etc.)
     events = 0..24
       |> Enum.map(fn w -> Timex.add(firstDate, Duration.from_days(7 * w)) end)
       |> Enum.map(fn d -> Timex.format!(d, "{ISOdate}") end)
