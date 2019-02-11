@@ -10,7 +10,7 @@ DTSTAMP:<%= Timex.format!(Timex.now, "{ISO:Basic:Z}") %>
 DTSTART:<%= Timex.format!(Timex.parse!(item["startTime"], "{ISO:Extended}"), "{ISO:Basic:Z}") %>
 DTEND:<%= Timex.format!(Timex.parse!(item["endTime"], "{ISO:Extended}"), "{ISO:Basic:Z}") %>
 SUMMARY:<%= item["name"] %>
-DESCRIPTION:<%= item["description"] %>\n<%= for lecturer <- List.first(item["eventRealizations"])["lecturers"] do %>\n<%= lecturer["firstName"] %> <%= lecturer["lastName"] %> (<%= lecturer["shortName"] %>)<% end %>
-LOCATION:<%= List.first(item["eventRealizations"])["room"]["name"] %>
+DESCRIPTION:<%= item["description"] %>\n<%= if item["eventRealizations"] != nil do %><%= for lecturer <- List.first(item["eventRealizations"])["lecturers"] do %>\n<%= lecturer["firstName"] %> <%= lecturer["lastName"] %> (<%= lecturer["shortName"] %>)<% end %>
+LOCATION:<%= List.first(item["eventRealizations"])["room"]["name"] %><% end %>
 END:VEVENT
 <% end %>END:VCALENDAR
